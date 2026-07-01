@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ActiveTrack | Crush Your Limits</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="notification-warning" class="warning-banner hidden">
+        ⚠️ Notifications are blocked in your browser settings. Please unblock them to receive workout reminders.
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <h1>ACTIVETRACK PRO</h1>
+                <button id="theme-toggle" class="btn-small theme-btn">🌙 Dark Mode</button>
+            </div>
+            <h2 id="motivational-greeting">NO EXCUSES, GUEST. LET'S WORK.</h2>
+            
+            <div class="user-management card">
+                <div class="user-controls">
+                    <div class="control-group">
+                        <label for="user-profile">Current Athlete:</label>
+                        <select id="user-profile" class="user-select"></select>
+                    </div>
+                    <div class="control-group">
+                        <label for="new-user-input">Add New Profile:</label>
+                        <div class="add-user-row">
+                            <input type="text" id="new-user-input" placeholder="Enter your name...">
+                            <button id="add-user-btn" class="btn-small power-btn">Add & Switch</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="settings-section card">
+            <h3 class="section-title">YOUR METRICS</h3>
+            
+            <div class="settings-grid four-col">
+                <div class="setting-group">
+                    <label for="height-input">Height (cm)</label>
+                    <input type="number" id="height-input" placeholder="e.g. 175" min="1">
+                </div>
+                <div class="setting-group">
+                    <label for="weight-input">Weight (kg)</label>
+                    <input type="number" id="weight-input" placeholder="e.g. 70" min="1">
+                </div>
+                <div class="setting-group">
+                    <label for="goal-input">Daily Calorie Goal</label>
+                    <input type="number" id="goal-input" placeholder="e.g. 500" min="1">
+                </div>
+                
+                <div class="setting-group clock-widget-container">
+                    <label>Set Reminder Time</label>
+                    <div class="analog-clock" id="analog-clock">
+                        <div class="clock-center"></div>
+                        <div class="hand hour-hand" id="hour-hand"></div>
+                        <div class="hand minute-hand" id="minute-hand"></div>
+                        <div class="drag-target hour-target" id="hour-target"></div>
+                        <div class="drag-target minute-target" id="minute-target"></div>
+                    </div>
+                    <div class="clock-controls">
+                        <div class="time-display-wrapper">
+                            <p id="clock-display" class="clock-display-text">12:00</p>
+                            <button id="ampm-toggle" class="ampm-btn">AM</button>
+                        </div>
+                        <button id="set-reminder-btn" class="btn-small power-btn">Set Alarm</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+            <p id="goal-text" class="text-center">Set a target and crush it!</p>
+        </section>
+
+        <section class="dashboard">
+            <div class="stats">
+                <div class="card stat-card">
+                    <h2>TOTAL WORKOUTS</h2>
+                    <p id="total-workouts">0</p>
+                </div>
+                <div class="card stat-card highlight">
+                    <h2>CALORIES BURNED</h2>
+                    <p id="total-calories">0 kcal</p>
+                </div>
+                <div class="card stat-card">
+                    <h2>CURRENT BMI</h2>
+                    <p id="bmi-value">--</p>
+                    <span id="bmi-scale" class="bmi-badge">ENTER METRICS</span>
+                </div>
+            </div>
+            <div class="card chart-container">
+                <canvas id="workoutChart"></canvas>
+            </div>
+        </section>
+
+        <main>
+            <section class="form-section card border-accent">
+                <h3 class="section-title">LOG YOUR GRIND</h3>
+                <form id="workout-form">
+                    <p id="error-message" class="error hidden">Intensity requires valid numbers!</p>
+                    <div class="form-group">
+                        <label for="type">Exercise Type</label>
+                        <select id="type" required>
+                            <option value="Running">Running</option>
+                            <option value="Cycling">Cycling</option>
+                            <option value="Weightlifting">Weightlifting</option>
+                            <option value="Yoga">Yoga</option>
+                            <option value="Walking">Walking</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="duration">Duration (minutes)</label>
+                        <input type="number" id="duration" required min="1" placeholder="How long did you push?">
+                    </div>
+                    <div class="form-group">
+                        <label for="calories">Calories Burned (Auto-calculated)</label>
+                        <input type="number" id="calories" readonly class="readonly-input">
+                    </div>
+                    <button type="submit" class="btn power-btn-large">LOG WORKOUT</button>
+                </form>
+            </section>
+
+            <section class="history-section card">
+                <div class="history-header">
+                    <h3 class="section-title">TRAINING HISTORY</h3>
+                    <div class="controls">
+                        <select id="filter-type">
+                            <option value="All">All Types</option>
+                            <option value="Running">Running</option>
+                            <option value="Cycling">Cycling</option>
+                            <option value="Weightlifting">Weightlifting</option>
+                            <option value="Yoga">Yoga</option>
+                            <option value="Walking">Walking</option>
+                        </select>
+                        <select id="sort-by">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="highest">Highest Calories</option>
+                        </select>
+                    </div>
+                </div>
+                <ul id="workout-list"></ul>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
